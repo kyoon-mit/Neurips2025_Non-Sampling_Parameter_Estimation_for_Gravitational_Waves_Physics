@@ -1,28 +1,34 @@
-<h2 style="color: orange"> Setup </h2>
+## Setup
 
 ### Prerequisities
 - Conda
 - Slurm submission
 
-### Setup script
-In order to setup the environment correctly, first open a bash terminal and run
-```
-source install.sh
-```
-This will set the necessary environment variables as well as generate the correct ```env.yaml``` file.
-
 ### Create Conda environment
-Create the conda environment from the ```.yaml``` file by running,
+Create the conda environment from the ```.yaml``` file in your prefered conda env directory.
 ```
-conda env create -f env.yaml
+conda env create -f myenv.yaml --prefix /path/to/your/conda/envs/myenv
 ```
 Then, enter the conda environment.
 ```
-conda activate env
+conda activate myenv
 ```
 Obviously, you are free to choose whatever name you want for the conda environment.
 
-<h2 style="color: orange"> Reproduce all paper results </h2>
+### Pip install current project
+To ensure that the imports work, go to the top directory and run the following command.
+```
+pip install -e .
+```
+This must be done within the conda environment.
+
+### Run environment variables script
+There are environment variables which are user-dependent, and must be set correctly. To do so, run the following every time you login.
+```
+source env.sh
+```
+
+## Reproduce all paper results
 
 First, make sure you have followed the instructions in the **Setup**. 
 

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neurips2025_ml4ps_ssm_gw"
+version = "0.1.0"
+description = "Non-sampling parameter estimation for gravitational wave physics"
+authors = [
+    {name = "Kyungseop Yoon", email = "kyoon@mit.edu"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+license = {text = "MIT"}
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
