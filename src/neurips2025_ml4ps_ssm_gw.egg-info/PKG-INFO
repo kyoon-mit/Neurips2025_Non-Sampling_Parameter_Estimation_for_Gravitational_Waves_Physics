@@ -1,3 +1,12 @@
+Metadata-Version: 2.4
+Name: neurips2025_ml4ps_ssm_gw
+Version: 0.1.0
+Summary: Non-sampling parameter estimation for gravitational wave physics
+Author-email: Kyungseop Yoon <kyoon@mit.edu>
+License: MIT
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+
 ## Setup
 
 ### Prerequisities
@@ -23,7 +32,7 @@ pip install -e .
 This must be done within the conda environment.
 
 ### Run environment variables script
-There are environment variables which are user-dependent, and must be set correctly. To do so, you must always run the environment script first.
+There are environment variables which are user-dependent, and must be set correctly. To do so, run the following every time you login.
 ```
 source env.sh
 ```
@@ -50,23 +59,4 @@ Additional Information
 ## Preparing Toy Dataset
 There are two toy datasets in this paper: damped harmonic oscillator and sine-gaussian pulse. In order to generate the toy datasets, simply run
 ```
-python scripts/create_toy_datasets.py
-```
-This will create toy datasets in the following directories within the ```data``` folder.
-```
-data/
-├── DHO  (damped harmonic oscillator dataset)
-├── SG   (sine-gaussian dataset)
-└── ...
-```
-
-While no modification is required, one can create datasets with different settings by editing the config ```yaml``` files. There are six preset configs that are used to generate the dataset in the paper.
-```
-configs/
-├── dho_dataset_gaussian_pink.yaml
-├── dho_dataset_gaussian_smear.yaml
-├── dho_dataset_gaussian_white.yaml
-├── sg_dataset_gaussian_pink.yaml
-├── sg_dataset_gaussian_smear.yaml
-└── sg_dataset_gaussian_white.yaml
-```
+python 

@@ -1,0 +1,24 @@
+---
+datatype: "dho"
+noisetype: "gaussian_smear"
+sigma: 0.4
+priors:
+  omega_0:
+    distribution: "uniform"
+    low: 0.1
+    high: 2.0
+  beta:
+    distribution: "uniform"
+    low: 0.0
+    high: 0.5
+  shift:
+    distribution: "uniform"
+    low: -4.0
+    high: 4.0
+num_samples: 100000
+num_repeats: 10
+t_start: -1
+t_end: 10
+t_num_points: 200
+method: "torch"
+seed: 42

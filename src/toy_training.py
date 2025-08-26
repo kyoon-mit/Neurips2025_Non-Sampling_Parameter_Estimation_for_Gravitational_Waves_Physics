@@ -24,7 +24,7 @@ class ToyDataModule(L.LightningDataModule):
             os.path.exists(self.train_data_path) and
             os.path.exists(self.val_data_path)
         ):
-            import toy_functions
+            import neurips2025.src.utils.toy_functions as toy_functions
             t_vals = torch.linspace(t_start, t_end, num_points).repeat(num_samples, 1)
 
             if data_type == 'DHO':
