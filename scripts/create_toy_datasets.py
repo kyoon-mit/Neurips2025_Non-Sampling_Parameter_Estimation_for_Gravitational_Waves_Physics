@@ -46,15 +46,10 @@ def generate_toy_data(config_file):
             case _: raise ValueError(f'Unknown {noisetype=}')
         y_vals_shifted, y_noise = _noise(y_vals=y_vals_shifted, **config)
         y_vals_unshifted = y_vals_unshifted + y_noise
+        
         # Create a tensor or array of shape (num_samples, num_repeats, t_num_points)
         y_vals_shifted = y_vals_shifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
         y_vals_unshifted = y_vals_unshifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
-
-        # Save the data
-        save_dir = os.path.join(os.environ.get('PROJECT_DIR'), 'data')
-        datatype = config['datatype']
-        noisetype = config['noisetype']
-        sigma = config['sigma']
 
         # split indices
         num_total  = len(event_id)
@@ -66,8 +61,15 @@ def generate_toy_data(config_file):
         val_idx   = indices[train_size:train_size + val_size]
         test_idx  = indices[train_size + val_size:]
 
+        # Save the data
+        datatype = config['datatype']
+        noisetype = config['noisetype']
+        sigma = config['sigma']
+        save_dir = os.path.join(os.environ.get('PROJECT_DIR'), 'data', datatype.upper())
+        if not os.path.exists(save_dir): os.makedirs(save_dir)
+
         for split, idx in [('train', train_idx), ('val', val_idx), ('test', test_idx)]:
-            save_path = os.path.join(save_dir, datatype.upper(), f'{split}_{datatype}_{noisetype}_sigma{sigma}.pt')
+            save_path = os.path.join(save_dir, f'{split}_{datatype}_{noisetype}_sigma{sigma}.pt')
             _save_split(save_path, idx, y_vals_shifted, y_vals_unshifted, theta_shifted, theta_unshifted, event_id)
     return
 
