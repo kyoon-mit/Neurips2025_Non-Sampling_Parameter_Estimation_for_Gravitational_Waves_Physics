@@ -216,4 +216,7 @@ dependencies:
   - zlib-ng=2.2.5=hde8ca8f_0
   - zstandard=0.23.0=py313h07c4f96_3
   - zstd=1.5.7=hb8e6e7a_2
-prefix: /work/submit/kyoon/miniforge3/envs/neurips2025
+  - pip:
+      - colorednoise==2.2.0
+      - neurips2025-ml4ps-ssm-gw==0.1.0
+      - neurips2025-non-sampling-param-estimation-gw==0.1.0
