@@ -1,7 +1,7 @@
 ---
 datatype: "dho"
 noisetype: "gaussian_pink"
-sigma: 5.65685
+sigma: 0.4
 priors:
   omega_0:
     distribution: "uniform"

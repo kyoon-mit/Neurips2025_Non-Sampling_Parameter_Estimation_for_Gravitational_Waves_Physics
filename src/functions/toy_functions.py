@@ -5,6 +5,7 @@
 
 import numpy as np
 import torch
+import colorednoise as cn
 
 def func_dho(t_start, t_end, t_num_points, omega_0, beta, shift, method='torch', **kwargs):
     """Generate damped harmonic oscillator data.
@@ -142,11 +143,13 @@ def add_gaussian_white_noise(y_vals, sigma, method='torch', seed=42, **kwargs):
     return y_vals, torch.fft.irfft(y_noise)
 
 def add_gaussian_pink_noise(t_start, t_end, t_num_points, y_vals, sigma, method='torch', seed=42, **kwargs):
-    """Add Gaussian pink noise in the frequency domain.
+    """Add pink noise in the frequency domain.
 
-    Converts time-domain data y(t) to the frequency domain,
-    adds pink noise drawn from N(0, sigma) to each frequency component,
-    and transforms the result back to the time domain.
+    For description of the algorithm, refer to
+    Timmer, J. and Koenig, M.: On generating power law noise. Astron. Astrophys. 300, 707-710 (1995).
+
+    The noise is generated via the package,
+    https://github.com/felixpatzelt/colorednoise.
 
     Args:
         t_start (float): Starting value of the time domain.
@@ -161,20 +164,8 @@ def add_gaussian_pink_noise(t_start, t_end, t_num_points, y_vals, sigma, method=
         Data with added Gaussian pink noise (torch.Tensor or np.ndarray).
         noise (torch.Tensor or np.ndarray): The added noise in time domain.
     """
-    if method=='torch':
-        y_freq = torch.fft.rfft(y_vals, dim=-1)
-        x_freq = torch.fft.rfftfreq(n=t_num_points, d=(t_end-t_start)/t_num_points)
-        rng = torch.Generator().manual_seed(seed)
-        y_noise = sigma * torch.randn(size=y_freq.size(), generator=rng).to(dtype=torch.float32)
-        y_noise = y_noise/x_freq
-        y_noise = _zero_first_frequency(y_noise) # Always set the zeroeth frequency amplitude to zero [[0, ...], [0, ...], ...]
-        y_vals = torch.fft.irfft(y_freq + y_noise)
-    elif method=='numpy':
-        y_freq = np.fft.rfft(y_vals, axis=-1)
-        rng = np.random.default_rng(seed)
-        y_noise = sigma * rng.standard_normal(*y_freq.shape).astype(np.float32)
-        y_noise = y_noise/x_freq
-        y_noise = _zero_first_frequency(y_noise) # Always set the zeroeth frequency amplitude to zero [[0, ...], [0, ...], ...]
-        y_vals = np.fft.irfft(y_freq + y_noise)
+    y_noise = sigma * cn.powerlaw_psd_gaussian(exponent=1, size=y_vals.shape, random_state=seed)
+    if method=='torch': y_noise = torch.tensor(y_noise, dtype=torch.float32)
+    elif method=='numpy': y_noise.astype(np.float32)
     else: raise ValueError(f'Unknown {method=}.')
-    return y_vals, torch.fft.irfft(y_noise)
+    return y_vals, y_noise

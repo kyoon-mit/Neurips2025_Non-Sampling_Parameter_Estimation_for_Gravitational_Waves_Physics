@@ -1,7 +1,7 @@
 ---
 datatype: "sg"
 noisetype: "gaussian_pink"
-sigma: 8.94427
+sigma: 0.4
 priors:
   f_0:
     distribution: "uniform"
