@@ -48,6 +48,8 @@ def generate_toy_data(config_file):
         y_vals_unshifted = y_vals_unshifted + y_noise
         
         # Create a tensor or array of shape (num_samples, num_repeats, t_num_points)
+        theta_shifted = theta_shifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
+        theta_unshifted = theta_unshifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
         y_vals_shifted = y_vals_shifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
         y_vals_unshifted = y_vals_unshifted.unsqueeze(1).repeat(1, config['num_repeats'], 1)
 
